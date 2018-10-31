@@ -1,0 +1,20 @@
+[
+  {
+    "Tipo": 1,
+    "Nombre": "Sentadillas",
+    "Descripcion": "Test"
+  },
+
+  {
+    "Tipo": 1,
+    "Nombre": "Zancadas",
+    "Descripcion": "Test"
+  },
+
+  {
+    "Tipo": 2,
+    "Nombre": "Flexiones",
+    "Descripcion": "Test"
+  }
+
+]
