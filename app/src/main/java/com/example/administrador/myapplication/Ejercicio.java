@@ -17,4 +17,16 @@ class Ejercicio {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
 }
