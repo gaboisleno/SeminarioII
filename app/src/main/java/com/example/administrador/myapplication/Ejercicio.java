@@ -29,4 +29,8 @@ class Ejercicio {
     public String getDescripcion() {
         return descripcion;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }

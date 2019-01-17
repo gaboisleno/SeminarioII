@@ -1,9 +1,9 @@
 package com.example.administrador.myapplication;
 
 public class Usuario {
-    public String nombre;
-    public int experiencia;
-    public int nivel;
+    private String nombre;
+    private int experiencia;
+    private int nivel;
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -28,4 +28,5 @@ public class Usuario {
     public String getNombre() {
         return this.nombre;
     }
+
 }
