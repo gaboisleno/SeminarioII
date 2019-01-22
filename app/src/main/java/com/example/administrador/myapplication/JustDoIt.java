@@ -1,19 +1,12 @@
 package com.example.administrador.myapplication;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 
@@ -45,8 +38,8 @@ public class JustDoIt extends AppCompatActivity {
         "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
         "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":1}, " +
         "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":1},  " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Plank Jumpins\",\"tipo\":1},  " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Lunges Step-ups\",\"tipo\":2} " +
+        "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":1},  " +
+        "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":1} " +
         "]";
 
         Usuario appUser = gson.fromJson(myUserJson, Usuario.class);
@@ -69,9 +62,8 @@ public class JustDoIt extends AppCompatActivity {
         int rnd = 0;
 
         String texto = myText.getText() + "\n" +
-                " Nombre: "+ appUser.getNombre() +
+                "Nivel: "+ appUser.getNivel() +
                 " Experiencia: "+ appUser.getExperiencia() +
-                " Nivel: "+ appUser.getNivel() +
                 "\n";
 
         myText.setText(texto);
