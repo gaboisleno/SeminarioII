@@ -2,13 +2,14 @@ package com.example.administrador.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 
 public class JustDoIt extends AppCompatActivity {
 
@@ -17,38 +18,22 @@ public class JustDoIt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_just_do_it);
 
-        Gson gson = new Gson();
-
-        //De Obj A Json
-        /*
-        Ejercicio ej = new Ejercicio(1, "Flexiones", "hola");
-        String myJson = gson.toJson(ej);
-        */
-        //De Json a Obj
-        /*
-        String myJson = "{\"descripcion\":\"hola\",\"nombre\":\"Flexiones\",\"tipo\":1}";
-        Ejercicio ej = gson.fromJson(myJson, Ejercicio.class);
-        */
+        Gson gson       = new Gson();
+        FileHelper fh   = new FileHelper();
 
         //Json's
-        String myUserJson = "{\"nombre\":\"Gabriel\",\"nivel\":\"1\",\"experiencia\":0}";
+        String userInfo = fh.readFileAsString("user.json");
+        Log.d("ReadFile", userInfo);
+        String exercisesInfo = fh.readFileAsString("exercises.json");
+        Log.d("ReadFile", exercisesInfo);
 
-        String myExercisesJson = "[" +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":1}, " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":1},  " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":1},  " +
-        "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":1} " +
-        "]";
-
-        Usuario appUser = gson.fromJson(myUserJson, Usuario.class);
+        Usuario appUser = gson.fromJson(userInfo, Usuario.class);
 
         //Recuperar ejercicios
         List<Ejercicio> rutina = new ArrayList<>();
-        Ejercicio[] appRuotine = gson.fromJson(myExercisesJson, Ejercicio[].class);
+        Ejercicio[] appRuotine = gson.fromJson(exercisesInfo, Ejercicio[].class);
 
-        //llenar la lista de ejercicios
+        //Llenar la lista con ejercicios
         for (int i = 0; i < appRuotine.length; i++) {
             rutina.add(appRuotine[i]);
         }
@@ -57,9 +42,9 @@ public class JustDoIt extends AppCompatActivity {
         TextView myText = (TextView)findViewById(R.id.txtView);
         myText.setText("");
 
-        //Mostrar todos los ejercicios en el texview
+        //Mostrar los ejercicios en el texview
         int maxExc = getMaxExc(appUser.getNivel());
-        int rnd = 0;
+        int rand = 0;
 
         String texto = myText.getText() + "\n" +
                 "Nivel: "+ appUser.getNivel() +
@@ -69,20 +54,34 @@ public class JustDoIt extends AppCompatActivity {
         myText.setText(texto);
 
         for (int i=0; i < maxExc; i++){
-            rnd = new Random().nextInt(rutina.size());
+            rand = new Random().nextInt(rutina.size());
 
-            texto = myText.getText() + "\n" + rutina.get(rnd).getNombre();
+            texto = myText.getText() + "\n" + rutina.get(rand).getNombre();
 
             myText.setText(texto);
 
-            rutina.remove(rnd);
+            rutina.remove(rand);
         }
 
-    }
 
 
-    public void onClick (View view){
-        finish();
+
+        final Button tired = findViewById(R.id.tired);
+        tired.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("OnClickTired","Cansado...");
+                //Restar experiencia aqui...
+            }
+        });
+
+        final Button finish = findViewById(R.id.finished);
+        finish.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("OnClickFinish","Completado!");
+                //Sumar experiencia aqui...
+            }
+        });
+
     }
 
     public int getMaxExc(int level){

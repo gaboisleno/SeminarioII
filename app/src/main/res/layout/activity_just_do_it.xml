@@ -7,7 +7,7 @@
     tools:context=".JustDoIt">
 
     <Button
-        android:id="@+id/btnFinished"
+        android:id="@+id/finished"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/tired"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
