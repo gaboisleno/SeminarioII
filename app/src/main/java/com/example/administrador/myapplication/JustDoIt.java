@@ -18,6 +18,18 @@ public class JustDoIt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_just_do_it);
 
+        //Setear componentes
+        final Button tired = findViewById(R.id.tired);
+        final Button finish = findViewById(R.id.finished);
+        final Button next = findViewById(R.id.next);
+        final TextView myText = (TextView)findViewById(R.id.txtView);
+
+        String texto = "";
+        myText.setText(texto);
+
+        finish.setVisibility(View.INVISIBLE);
+        tired.setVisibility(View.INVISIBLE);
+
         Gson gson       = new Gson();
         FileHelper fh   = new FileHelper();
 
@@ -30,43 +42,42 @@ public class JustDoIt extends AppCompatActivity {
         Usuario appUser = gson.fromJson(userInfo, Usuario.class);
 
         //Recuperar ejercicios
-        List<Ejercicio> rutina = new ArrayList<>();
+        final List<Ejercicio> rutina = new ArrayList<>();
         Ejercicio[] appRuotine = gson.fromJson(exercisesInfo, Ejercicio[].class);
 
-        //Llenar la lista con ejercicios
+        //Cargar la lista con ejercicios
         for (int i = 0; i < appRuotine.length; i++) {
             rutina.add(appRuotine[i]);
         }
-
-        //Limpiar screen
-        TextView myText = (TextView)findViewById(R.id.txtView);
-        myText.setText("");
 
         //Mostrar los ejercicios en el texview
         int maxExc = getMaxExc(appUser.getNivel());
         int rand = 0;
 
-        String texto = myText.getText() + "\n" +
-                "Nivel: "+ appUser.getNivel() +
-                " Experiencia: "+ appUser.getExperiencia() +
-                "\n";
+        //Primer ejercicio
+        myText.setText(getExcersice(rutina));
 
-        myText.setText(texto);
+        next.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("OnClickNext","Siguiente ejercicio...");
+                String texto = "";
+                myText.setText(texto);
+                texto = getExcersice(rutina);
 
-        for (int i=0; i < maxExc; i++){
-            rand = new Random().nextInt(rutina.size());
+                Log.d("OnClickNext","Siguiente ejercicio "+ texto);
 
-            texto = myText.getText() + "\n" + rutina.get(rand).getNombre();
+                if (texto.equals("")){
+                    myText.setText("Completado!");
+                    finish.setVisibility(View.VISIBLE);
+                    tired.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.INVISIBLE);
+                }else{
+                    myText.setText(texto);
+                }
 
-            myText.setText(texto);
+            }
+        });
 
-            rutina.remove(rand);
-        }
-
-
-
-
-        final Button tired = findViewById(R.id.tired);
         tired.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("OnClickTired","Cansado...");
@@ -74,7 +85,6 @@ public class JustDoIt extends AppCompatActivity {
             }
         });
 
-        final Button finish = findViewById(R.id.finished);
         finish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("OnClickFinish","Completado!");
@@ -84,7 +94,24 @@ public class JustDoIt extends AppCompatActivity {
 
     }
 
+    public String getExcersice(List<Ejercicio> rutina){
+        int size = rutina.size();
+        String retorno = "";
+
+        if (size > 0){
+            int rand = new Random().nextInt(size);
+            retorno = rutina.get(rand).getNombre();
+            rutina.remove(rand);
+            return retorno;
+        }else{
+            return retorno;
+        }
+
+    }
+
+
     public int getMaxExc(int level){
+        //Segun el nivel, retorna el maximo de ejercicios
         int max;
 
         switch (level)

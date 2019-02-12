@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         FileHelper fh   = new FileHelper();
 
         //Load Json's
-        String myUserJson = "{\"nombre\":\"Gabriel\",\"nivel\":\"1\",\"experiencia\":0}";
+        String myUserJson = "{\"nombre\":\"Gabriel\",\"nivel\":\"4\",\"experiencia\":0}";
 
         String myExercisesJson = "[" +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
