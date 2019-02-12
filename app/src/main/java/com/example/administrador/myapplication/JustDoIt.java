@@ -13,6 +13,8 @@ import java.util.Random;
 
 public class JustDoIt extends AppCompatActivity {
 
+    int maxExc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,38 +45,37 @@ public class JustDoIt extends AppCompatActivity {
 
         //Recuperar ejercicios
         final List<Ejercicio> rutina = new ArrayList<>();
-        Ejercicio[] appRuotine = gson.fromJson(exercisesInfo, Ejercicio[].class);
+        final Ejercicio[] appRuotine = gson.fromJson(exercisesInfo, Ejercicio[].class);
 
         //Cargar la lista con ejercicios
         for (int i = 0; i < appRuotine.length; i++) {
             rutina.add(appRuotine[i]);
         }
 
-        //Mostrar los ejercicios en el texview
-        int maxExc = getMaxExc(appUser.getNivel());
-        int rand = 0;
-
         //Primer ejercicio
         myText.setText(getExcersice(rutina));
+        maxExc = getMaxExc(appUser.getNivel());
 
+
+        //Eventos click
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("OnClickNext","Siguiente ejercicio...");
+
                 String texto = "";
                 myText.setText(texto);
                 texto = getExcersice(rutina);
+                maxExc--;
 
-                Log.d("OnClickNext","Siguiente ejercicio "+ texto);
-
-                if (texto.equals("")){
+                //Rutina completa?
+                if (texto.equals("") || maxExc < 1 ){
                     myText.setText("Completado!");
+                    next.setVisibility(View.INVISIBLE);
                     finish.setVisibility(View.VISIBLE);
                     tired.setVisibility(View.VISIBLE);
-                    next.setVisibility(View.INVISIBLE);
                 }else{
                     myText.setText(texto);
                 }
-
             }
         });
 
@@ -113,7 +114,6 @@ public class JustDoIt extends AppCompatActivity {
     public int getMaxExc(int level){
         //Segun el nivel, retorna el maximo de ejercicios
         int max;
-
         switch (level)
         {
             case 1: case 2: case 3:
@@ -126,7 +126,6 @@ public class JustDoIt extends AppCompatActivity {
                max = 6;
                break;
         }
-
         return max;
     }
 }
