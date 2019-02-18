@@ -24,6 +24,21 @@ public class FileHelper extends  Application{
         }
     }
 
+    public boolean fileExists(String fileName){
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        BufferedReader in = null;
+
+        try {
+            in = new BufferedReader(new FileReader(new File(Environment.getExternalStorageDirectory(), fileName)));
+            while ((line = in.readLine()) != null) stringBuilder.append(line);
+        } catch (IOException e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public String readFileAsString(String fileName) {
 
         StringBuilder stringBuilder = new StringBuilder();
