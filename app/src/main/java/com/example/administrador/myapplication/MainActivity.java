@@ -1,5 +1,4 @@
 package com.example.administrador.myapplication;
-
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
                 "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":1},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":1},  " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":1} " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":1} " +
                 "]";
 
         TextView myText = (TextView)findViewById(R.id.welcomeUser);
@@ -43,13 +46,25 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ReadFile", exercisesInfo);
 
         Usuario appUser = gson.fromJson(userInfo, Usuario.class);
-        myText.setText("Bienvenido " + appUser.getNombre());
+        myText.setText(
+                "Bienvenido " + appUser.getNombre()+"\n"+
+                "Tu nivel actual es "+appUser.getNivel()
+        );
 
     }
 
     public void onClick (View view){
         Intent miIntent = new Intent(MainActivity.this, JustDoIt.class);
         startActivity(miIntent);
+    }
+
+    //TODO agregar un archivo log, con informacion sobre que dias se conectó
+    public String getDate(){
+        Date todayDate = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+        String todayString = formatter.format(todayDate);
+        Log.d("DATE", todayString);
+        return todayString;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class JustDoIt extends AppCompatActivity {
         final Button finish = findViewById(R.id.finished);
         final Button next = findViewById(R.id.next);
         final TextView myText = (TextView)findViewById(R.id.txtView);
+        final ImageView gifView = (ImageView)findViewById(R.id.gifView);
 
         String texto = "";
         myText.setText(texto);
@@ -53,9 +55,11 @@ public class JustDoIt extends AppCompatActivity {
         }
 
         //Primer ejercicio
-        myText.setText(getExcersice(rutina));
+        texto = getExcersice(rutina);
+        myText.setText(texto);
         maxExc = getMaxExc(appUser.getNivel());
-
+        setImage(texto, gifView);
+        //
 
         //Eventos click
         next.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +70,9 @@ public class JustDoIt extends AppCompatActivity {
                 myText.setText(texto);
                 texto = getExcersice(rutina);
                 maxExc--;
+
+                //Cambiar gif del ejercicio
+                setImage(texto, gifView);
 
                 //Rutina completa?
                 if (texto.equals("") || maxExc < 1 ){
@@ -90,6 +97,7 @@ public class JustDoIt extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("OnClickFinish","Completado!");
                 //Sumar experiencia aqui...
+                finish();
             }
         });
 
@@ -127,5 +135,32 @@ public class JustDoIt extends AppCompatActivity {
                break;
         }
         return max;
+    }
+
+    public void setImage(String id, ImageView img){
+        switch (id){
+            case "Zancadas":
+                img.setImageResource(R.drawable.zancadas);
+                break;
+            case "Sentadillas":
+                img.setImageResource(R.drawable.sentadillas);
+                break;
+            case "Flexiones":
+                img.setImageResource(R.drawable.flexiones);
+                break;
+            case "Abdominales":
+                img.setImageResource(R.drawable.abdominales);
+                break;
+            case "Elevacion de piernas":
+                img.setImageResource(R.drawable.elevacion_piernas);
+                break;
+            case "Plancha":
+                img.setImageResource(R.drawable.plancha);
+                break;
+            case "Abdominales bicileta":
+                img.setImageResource(R.drawable.abdominales_bicicleta);
+                break;
+
+        }
     }
 }
