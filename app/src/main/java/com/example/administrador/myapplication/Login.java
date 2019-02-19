@@ -29,20 +29,27 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView textName = (TextView)findViewById(R.id.editName);
-                Gson gson = new Gson();
 
-                //Create user
-                String myUserJson = "{\"nombre\":\""+textName.getText()+"\",\"nivel\":\"1\",\"experiencia\":0}";
-                //Usuario appUser = gson.fromJson(myUserJson, Usuario.class);
+                if (textName.getText().length() > 1){
+                    Gson gson = new Gson();
 
-                //*Create json file
-                if( fh.writeStringAsFile(myUserJson, "user.json")){
-                    //Go to MainActivity
-                    Log.d("File", "User file created");
-                    startActivity(new Intent(Login.this, MainActivity.class));
+                    //Create user
+                    String myUserJson = "{\"nombre\":\""+textName.getText()+"\",\"nivel\":\"1\",\"experiencia\":0}";
+                    //Usuario appUser = gson.fromJson(myUserJson, Usuario.class);
+
+                    //*Create json file
+                    if( fh.writeStringAsFile(myUserJson, "user.json")){
+                        //Go to MainActivity
+                        Log.d("File", "User file created");
+                        startActivity(new Intent(Login.this, MainActivity.class));
+                    }else{
+                        Log.d("File", "User file not created !");
+                    }
                 }else{
-                    Log.d("File", "User file not created !");
+                    textName.setError("Campo requerido!");
                 }
+
+
             }
         });
     }
