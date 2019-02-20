@@ -15,7 +15,7 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public void setExperiencia(int experiencia) {
+    public void setExp(int experiencia) {
         this.experiencia = experiencia;
     }
 
@@ -23,7 +23,7 @@ public class Usuario {
         this.nivel = nivel;
     }
 
-    public int getExperiencia() {
+    public int getExp() {
         return this.experiencia;
     }
 
@@ -33,6 +33,15 @@ public class Usuario {
 
     public String getNombre() {
         return this.nombre;
+    }
+
+    public void addExperience(int x){
+        this.experiencia = + x;
+
+    }
+
+    private void manageLevel(int exp){
+
     }
 
 

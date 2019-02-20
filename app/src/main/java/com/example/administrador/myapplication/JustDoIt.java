@@ -77,6 +77,7 @@ public class JustDoIt extends AppCompatActivity {
                 //Rutina completa?
                 if (texto.equals("") || maxExc < 1 ){
                     myText.setText("Completado!");
+                    gifView.setVisibility(View.INVISIBLE);
                     next.setVisibility(View.INVISIBLE);
                     finish.setVisibility(View.VISIBLE);
                     tired.setVisibility(View.VISIBLE);

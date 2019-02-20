@@ -1,20 +1,61 @@
 package com.example.administrador.myapplication;
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
+
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class FileHelper extends  Application{
 
-    //TODO implementar encode-decode, la funcion esta lista
+    Gson gson = new Gson();
+
+    public String LoadData() {
+        String tContents = "[" +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":1},  " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":1},  " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":1} " +
+                "]";
+        return tContents;
+    }
+
+    public Usuario loadUser(){
+        String userInfo = readFileAsString("user.json");
+        Log.d("ReadFile", userInfo);
+        Usuario appUser = gson.fromJson(userInfo, Usuario.class);
+        return appUser;
+    }
+
+    public boolean saveUser(Usuario user){
+        String myUserJson = "{\"nombre\":\""+user.getNombre()+"\",\"nivel\":\""+user.getNivel()+"\",\"experiencia\":"+user.getExp()+"}";
+        //*Create json file
+        if (writeStringAsFile(myUserJson, "user.json")){
+            Log.d("File", "User file created");
+               return true;
+        }else{
+            Log.d("File", "User file not created !");
+            return false;
+        }
+    }
+
+    //start TODO implementar encode-decode, la funcion está lista
     public String encode(String text){
         byte[] data = text.getBytes();
         String base64 = Base64.encodeToString(data, Base64.DEFAULT);
@@ -26,6 +67,8 @@ public class FileHelper extends  Application{
         String text = new String(data);
         return text;
     }
+
+    //end TODO ------------------------------------------------
 
     public boolean writeStringAsFile(String fileContents, String fileName) {
         try {
