@@ -35,14 +35,5 @@ public class Usuario {
         return this.nombre;
     }
 
-    public void addExperience(int x){
-        this.experiencia = + x;
-
-    }
-
-    private void manageLevel(int exp){
-
-    }
-
 
 }

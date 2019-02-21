@@ -17,13 +17,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class FileHelper extends  Application{
 
     Gson gson = new Gson();
 
-    public String LoadData() {
+    public String loadData() {
         String tContents = "[" +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
@@ -34,6 +36,22 @@ public class FileHelper extends  Application{
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":1} " +
                 "]";
         return tContents;
+    }
+
+    public List<Ejercicio> getExerciseList(){
+        //Recuperar ejercicios
+        String exercisesInfo = loadData();
+
+        final List<Ejercicio> rutina = new ArrayList<>();
+        final Ejercicio[] appRuotine = gson.fromJson(exercisesInfo, Ejercicio[].class);
+
+        //Cargar la lista con ejercicios
+        for (int i = 0; i < appRuotine.length; i++) {
+            rutina.add(appRuotine[i]);
+        }
+
+        return rutina;
+
     }
 
     public Usuario loadUser(){

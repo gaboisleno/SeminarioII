@@ -12,15 +12,15 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    Gson gson       = new Gson();
+    FileHelper fh   = new FileHelper();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Gson gson       = new Gson();
-        FileHelper fh   = new FileHelper();
-
-        String myExercisesJson = fh.LoadData();
+        String myExercisesJson = fh.loadData();
         Usuario appUser = fh.loadUser();
 
         TextView myText = (TextView)findViewById(R.id.welcomeUser);
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         myText.setText(
-                "Bienvenido " + appUser.getNombre()+" estás en nivel "+appUser.getNivel()
+                "Bienvenido " + appUser.getNombre()+" nivel "+appUser.getNivel() + " exp " + appUser.getExp()
         );
     }
 
@@ -62,7 +62,17 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        Usuario appUser = fh.loadUser();
+        TextView myText = (TextView)findViewById(R.id.welcomeUser);
+        myText.setText(
+                "Bienvenido " + appUser.getNombre()+" nivel "+appUser.getNivel() + " exp " + appUser.getExp()
+        );
+    }
 
 
 }
