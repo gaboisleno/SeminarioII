@@ -23,6 +23,14 @@ public class Usuario {
         this.nivel = nivel;
     }
 
+    public void levelUp (){
+        this.nivel++;
+    }
+
+    public void levelDown(){
+        this.nivel--;
+    }
+
     public int getExp() {
         return this.experiencia;
     }
@@ -34,6 +42,5 @@ public class Usuario {
     public String getNombre() {
         return this.nombre;
     }
-
 
 }

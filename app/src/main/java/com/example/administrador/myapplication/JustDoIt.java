@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +18,8 @@ import java.util.logging.Level;
 
 public class JustDoIt extends AppCompatActivity {
 
-    private int maxExc;
+    public int maxExc;
+    FileHelper fh   = new FileHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +28,30 @@ public class JustDoIt extends AppCompatActivity {
 
         //Setear variables
         Gson gson       = new Gson();
-        FileHelper fh   = new FileHelper();
         Usuario appUser = fh.loadUser();
         final List<Ejercicio> rutina = fh.getExerciseList();
-
-        maxExc = LevelManager.getMaxExc(appUser.getNivel());
 
         //Setear componentes
         final Button tired = findViewById(R.id.tired);
         final Button finish = findViewById(R.id.finished);
         final Button next = findViewById(R.id.next);
         final TextView myText = (TextView)findViewById(R.id.txtView);
+        final TextView repetitionsText = (TextView)findViewById(R.id.txtRepetitions);
+        final TextView descriptionText = (TextView)findViewById(R.id.txtDescription);
         final ImageView gifView = (ImageView)findViewById(R.id.gifView);
-
-        String texto = "";
-        myText.setText(texto);
 
         finish.setVisibility(View.INVISIBLE);
         tired.setVisibility(View.INVISIBLE);
+
+        String texto = "";
+        String rep =
+                LevelManager.series(appUser.getNivel())+ " series de " +
+                        LevelManager.repetitions(appUser.getNivel()) + " repeticiones";
+        myText.setText(texto);
+        repetitionsText.setText(rep);
+
+        maxExc = LevelManager.getMaxExc(appUser.getNivel());
+        setTitle( (maxExc-1) + " ejercicios restantes");
 
         //Primer ejercicio
         Ejercicio exc = getExcersice(rutina);
@@ -52,6 +62,7 @@ public class JustDoIt extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("OnClickNext","Siguiente ejercicio...");
+                setTitle( (maxExc-2) + " ejercicios restantes");
 
                 String texto = "";
                 myText.setText(texto);
@@ -65,10 +76,15 @@ public class JustDoIt extends AppCompatActivity {
                 //Rutina completa?
                 if (exc.getNombre().equals("") || maxExc < 1 ){
                     myText.setText("Completado!");
+                    setTitle( "Rutina completa");
+
                     gifView.setVisibility(View.INVISIBLE);
+                    repetitionsText.setVisibility(View.INVISIBLE);
+                    descriptionText.setVisibility(View.INVISIBLE);
                     next.setVisibility(View.INVISIBLE);
                     finish.setVisibility(View.VISIBLE);
                     tired.setVisibility(View.VISIBLE);
+
                 }else{
                     myText.setText(exc.getNombre());
                 }
@@ -78,25 +94,26 @@ public class JustDoIt extends AppCompatActivity {
         tired.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("OnClickTired","Cansado...");
-                //Restar experiencia aqui...
+                Usuario appUser = fh.loadUser();
+                appUser.levelDown();//todo: quitar exp en lugar de lvl
+                end(appUser);
+
             }
         });
 
         finish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("OnClickFinish","Completado!");
-                //Sumar experiencia aqui...
-                FileHelper fh = new FileHelper();
                 Usuario appUser = fh.loadUser();
-
-                Log.d("Load user",appUser.toString());
-
-                appUser.setExp(appUser.getExp() + 100);
-                if (fh.saveUser(appUser)) finish();
-
+                appUser.levelUp(); //todo: dar exp en lugar de lvl
+                end(appUser);
             }
         });
 
+    }
+
+    public void end(Usuario appUser){
+        if (fh.saveUser(appUser)) finish();
     }
 
     public Ejercicio getExcersice(List<Ejercicio> rutina){
@@ -108,7 +125,7 @@ public class JustDoIt extends AppCompatActivity {
             retorno = rutina.get(rand);
             rutina.remove(rand);
             return retorno;
-        }else{
+        } else {
             return new Ejercicio(0,"","");
         }
     }
@@ -136,6 +153,9 @@ public class JustDoIt extends AppCompatActivity {
                 break;
             case "Abdominales bicileta":
                 img.setImageResource(R.drawable.abdominales_bicicleta);
+                break;
+            case "Abdominales cruzados":
+                img.setImageResource(R.drawable.abdominales_cruzados);
                 break;
 
         }

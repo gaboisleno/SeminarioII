@@ -25,15 +25,20 @@ public class FileHelper extends  Application{
 
     Gson gson = new Gson();
 
+    //1:Piernas
+    //2:Brazos
+    //3:Torzo
+
     public String loadData() {
         String tContents = "[" +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":1}, " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":1},  " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":2}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":3},  " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales cruzados\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":1},  " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":1}, " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":1} " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":3}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":3} " +
                 "]";
         return tContents;
     }
