@@ -9,17 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 public class JustDoIt extends AppCompatActivity {
 
     public int maxExc;
     FileHelper fh   = new FileHelper();
+    Gson gson       = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +24,9 @@ public class JustDoIt extends AppCompatActivity {
         setContentView(R.layout.activity_just_do_it);
 
         //Setear variables
-        Gson gson       = new Gson();
         Usuario appUser = fh.loadUser();
-        final List<Ejercicio> rutina = fh.getExerciseList();
+        //final List<Ejercicio> rutina = fh.getExerciseList();
+        final List<Ejercicio> rutina = fh.filteredRutine(3); //Filtro de rutina
 
         //Setear componentes
         final Button tired = findViewById(R.id.tired);
@@ -156,6 +153,9 @@ public class JustDoIt extends AppCompatActivity {
                 break;
             case "Abdominales cruzados":
                 img.setImageResource(R.drawable.abdominales_cruzados);
+                break;
+            case "Escalar montaña":
+                img.setImageResource(R.drawable.escalar_montana);
                 break;
 
         }

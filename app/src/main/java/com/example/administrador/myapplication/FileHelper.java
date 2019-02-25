@@ -25,18 +25,15 @@ public class FileHelper extends  Application{
 
     Gson gson = new Gson();
 
-    //1:Piernas
-    //2:Brazos
-    //3:Torzo
-
     public String loadData() {
         String tContents = "[" +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Escalar montaña\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales cruzados\",\"tipo\":3},  " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":1},  " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":2},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":3}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":3} " +
                 "]";
@@ -54,9 +51,24 @@ public class FileHelper extends  Application{
         for (int i = 0; i < appRuotine.length; i++) {
             rutina.add(appRuotine[i]);
         }
-
         return rutina;
+    }
 
+    public List<Ejercicio> filteredRutine(int tipo){
+        //1:Piernas
+        //2:Brazos
+        //3:Torzo
+
+        List<Ejercicio> all = getExerciseList();
+        List<Ejercicio> filtered = new ArrayList<>();
+
+        for (Ejercicio e : all) {
+            Log.d("Filter",e.getNombre());
+            if (e.getTipo() == tipo){
+                filtered.add(e);
+            }
+        }
+        return filtered;
     }
 
     public Usuario loadUser(){
