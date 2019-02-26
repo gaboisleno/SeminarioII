@@ -8,7 +8,7 @@ public class LevelManager {
         return 8 + ((level-1) * 2);
     }
 
-    public static int series(int level){
+    public static int getSeries(int level){
         int retorno;
 
         switch (level){
@@ -29,7 +29,7 @@ public class LevelManager {
         return retorno;
     }
 
-    public static int getMaxExc(int level){
+    public static int getExercises(int level){
         //Segun el nivel, retorna el maximo de ejercicios
         int max;
         switch (level)

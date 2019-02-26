@@ -43,18 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick (View view){
         Log.d("Onclick","GotoJustDoit");
-
         Intent miIntent = new Intent(MainActivity.this, JustDoIt.class);
+        fh.saveLog(fh.getDate());
         startActivity(miIntent);
-    }
-
-    //TODO agregar un archivo log, con informacion sobre que dias se conectó
-    public String getDate(){
-        Date todayDate = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
-        String todayString = formatter.format(todayDate);
-        Log.d("DATE", todayString);
-        return todayString;
     }
 
     @Override

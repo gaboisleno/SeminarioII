@@ -11,13 +11,19 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -69,6 +75,56 @@ public class FileHelper extends  Application{
             }
         }
         return filtered;
+    }
+
+    public String lastLog(){
+        BufferedReader br = null;
+        try {
+            String sCurrentLine;
+            String lastLine = "";
+            br = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getPath()+"/log.txt"));
+
+            while ((sCurrentLine = br.readLine()) != null)
+            {
+                System.out.println(sCurrentLine);
+                lastLine = sCurrentLine;
+            }
+            br.close();
+            return lastLine;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public boolean saveLog(String data){
+        if (data.equals(lastLog())){
+            Log.d("Date","Same Date last log!!!");
+            return false;
+        }
+
+        BufferedWriter bw = null;
+        try {
+            Log.d("Appending", "Appending mensaje "+data);
+            bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getPath()+"/log.txt", true));
+            bw.write(data);
+            bw.newLine();
+            bw.flush();
+            bw.close();
+            return true;
+        } catch (IOException e) {
+            Log.d("Appending", "Appending Error");
+            return false;
+        }
+    }
+
+    //TODO agregar un archivo log, con informacion sobre que dias se conectó
+    public String getDate(){
+        Date todayDate = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String todayString = formatter.format(todayDate);
+        Log.d("DATE", todayString);
+        return todayString;
     }
 
     public Usuario loadUser(){

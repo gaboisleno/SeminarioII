@@ -41,13 +41,13 @@ public class JustDoIt extends AppCompatActivity {
         tired.setVisibility(View.INVISIBLE);
 
         String texto = "";
-        String rep =
-                LevelManager.series(appUser.getNivel())+ " series de " +
+        String repetitionInfo =
+                LevelManager.getSeries(appUser.getNivel())+ " series de " +
                         LevelManager.repetitions(appUser.getNivel()) + " repeticiones";
         myText.setText(texto);
-        repetitionsText.setText(rep);
+        repetitionsText.setText(repetitionInfo);
 
-        maxExc = LevelManager.getMaxExc(appUser.getNivel());
+        maxExc = LevelManager.getExercises(appUser.getNivel());
         setTitle( (maxExc-1) + " ejercicios restantes");
 
         //Primer ejercicio
