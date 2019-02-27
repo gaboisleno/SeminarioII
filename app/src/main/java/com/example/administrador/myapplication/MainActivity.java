@@ -6,9 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.google.gson.Gson;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String myExercisesJson = fh.loadData();
+        String myExercisesJson = fh.loadExercises();
         Usuario appUser = fh.loadUser();
 
         TextView myText = (TextView)findViewById(R.id.welcomeUser);
@@ -35,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         String exercisesInfo = fh.readFileAsString("exercises.json");
         Log.d("ReadFile", exercisesInfo);
 
-
         myText.setText(
                 "Bienvenido " + appUser.getNombre()+" nivel "+appUser.getNivel() + " exp " + appUser.getExp()
         );
@@ -43,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick (View view){
         Log.d("Onclick","GotoJustDoit");
+        // todo Comprobar si el dia de hoy hizo la rutina//
         Intent miIntent = new Intent(MainActivity.this, JustDoIt.class);
-        fh.saveLog(fh.getDate());
         startActivity(miIntent);
     }
 

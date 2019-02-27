@@ -15,6 +15,7 @@ import java.util.Random;
 public class JustDoIt extends AppCompatActivity {
 
     public int maxExc;
+    public int type;
     FileHelper fh   = new FileHelper();
     Gson gson       = new Gson();
 
@@ -25,10 +26,8 @@ public class JustDoIt extends AppCompatActivity {
 
         //Setear variables
         Usuario appUser = fh.loadUser();
-        //final List<Ejercicio> rutina = fh.getExerciseList();
-        final List<Ejercicio> rutina = fh.filteredRutine(3); //Filtro de rutina
+        UserLog lastUserLog = fh.lastLog();
 
-        //Setear componentes
         final Button tired = findViewById(R.id.tired);
         final Button finish = findViewById(R.id.finished);
         final Button next = findViewById(R.id.next);
@@ -36,6 +35,22 @@ public class JustDoIt extends AppCompatActivity {
         final TextView repetitionsText = (TextView)findViewById(R.id.txtRepetitions);
         final TextView descriptionText = (TextView)findViewById(R.id.txtDescription);
         final ImageView gifView = (ImageView)findViewById(R.id.gifView);
+
+        //Filtro de rutina
+        Log.d("userlog",""+lastUserLog.getExerciseType());
+        type = lastUserLog.getExerciseType();
+
+
+        if (type==1) {
+            type=2;
+        } else if (type==2) {
+            type=3;
+        } else if (type==3) {
+            type=1;
+        }
+
+        Log.d("type exer",""+type);
+        final List<Ejercicio> rutina = fh.filteredRutine(type);
 
         finish.setVisibility(View.INVISIBLE);
         tired.setVisibility(View.INVISIBLE);
@@ -103,6 +118,12 @@ public class JustDoIt extends AppCompatActivity {
                 Log.d("OnClickFinish","Completado!");
                 Usuario appUser = fh.loadUser();
                 appUser.levelUp(); //todo: dar exp en lugar de lvl
+
+                UserLog log = new UserLog();
+                log.setDay(fh.getDate());
+                log.setExerciseType(type);
+                fh.saveLog(log);
+
                 end(appUser);
             }
         });

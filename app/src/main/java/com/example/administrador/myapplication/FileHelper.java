@@ -1,9 +1,5 @@
 package com.example.administrador.myapplication;
 import android.app.Application;
-import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
@@ -13,25 +9,20 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
 public class FileHelper extends  Application{
 
     Gson gson = new Gson();
 
-    public String loadData() {
+    public String loadExercises() {
         String tContents = "[" +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
@@ -39,7 +30,7 @@ public class FileHelper extends  Application{
                 "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales cruzados\",\"tipo\":3},  " +
-                "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":2},  " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":3}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":3} " +
                 "]";
@@ -48,7 +39,7 @@ public class FileHelper extends  Application{
 
     public List<Ejercicio> getExerciseList(){
         //Recuperar ejercicios
-        String exercisesInfo = loadData();
+        String exercisesInfo = loadExercises();
 
         final List<Ejercicio> rutina = new ArrayList<>();
         final Ejercicio[] appRuotine = gson.fromJson(exercisesInfo, Ejercicio[].class);
@@ -64,10 +55,8 @@ public class FileHelper extends  Application{
         //1:Piernas
         //2:Brazos
         //3:Torzo
-
         List<Ejercicio> all = getExerciseList();
         List<Ejercicio> filtered = new ArrayList<>();
-
         for (Ejercicio e : all) {
             Log.d("Filter",e.getNombre());
             if (e.getTipo() == tipo){
@@ -77,12 +66,19 @@ public class FileHelper extends  Application{
         return filtered;
     }
 
-    public String lastLog(){
+    public UserLog lastLog(){
         BufferedReader br = null;
+        UserLog log = null;
+
+        if (!(fileExists("log.json"))){
+            log = new UserLog("",3);
+            return log;
+        }
+
         try {
             String sCurrentLine;
             String lastLine = "";
-            br = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getPath()+"/log.txt"));
+            br = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getPath()+"/log.json"));
 
             while ((sCurrentLine = br.readLine()) != null)
             {
@@ -90,26 +86,31 @@ public class FileHelper extends  Application{
                 lastLine = sCurrentLine;
             }
             br.close();
-            return lastLine;
+            log = gson.fromJson(lastLine, UserLog.class);
+            return log;
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return log;
         }
     }
 
-    public boolean saveLog(String data){
-        if (data.equals(lastLog())){
+    public boolean saveLog(UserLog log){
+        String jsonLog = "{\"day\":\""+log.getDay()+"\",\"exerciseType\":"+"\""+log.getExerciseType()+"\"}";
+
+        if (!(fileExists("log.json"))){
+             writeStringAsFile("", "log.json");
+        } else {
+            jsonLog = ",\n"+jsonLog;
+        }
+
+        if (lastLog()!=null && (log.getDay().equals(lastLog().getDay()))){
             Log.d("Date","Same Date last log!!!");
             return false;
         }
-
         BufferedWriter bw = null;
         try {
-            Log.d("Appending", "Appending mensaje "+data);
-            bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getPath()+"/log.txt", true));
-            bw.write(data);
-            bw.newLine();
-            bw.flush();
+            bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getPath()+"/log.json", true));
+            bw.write(jsonLog);
             bw.close();
             return true;
         } catch (IOException e) {
@@ -174,18 +175,12 @@ public class FileHelper extends  Application{
     }
 
     public boolean fileExists(String fileName){
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        BufferedReader in = null;
-
-        try {
-            in = new BufferedReader(new FileReader(new File(Environment.getExternalStorageDirectory(), fileName)));
-            while ((line = in.readLine()) != null) stringBuilder.append(line);
-        } catch (IOException e) {
+        File file = new File(Environment.getExternalStorageDirectory()+"/"+fileName);
+        if(file.exists()){
+            return true;
+        } else {
             return false;
         }
-
-        return true;
     }
 
     public String readFileAsString(String fileName) {
