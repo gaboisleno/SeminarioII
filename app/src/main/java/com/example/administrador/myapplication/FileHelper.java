@@ -28,6 +28,9 @@ public class FileHelper extends  Application{
                 "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Escalar montaña\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":2}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones en banco\",\"tipo\":2}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Triceps en banco\",\"tipo\":2}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Saltos burpees\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales cruzados\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":3},  " +
@@ -66,12 +69,31 @@ public class FileHelper extends  Application{
         return filtered;
     }
 
+    public List<UserLog> getLogList(){
+        //Recuperar logs
+        String logInfo = "["+readFileAsString("log.json")+"]";
+        Log.d("LOGS", ""+logInfo);
+
+        List<UserLog> logList = new ArrayList<>();
+
+        UserLog[] logJson = gson.fromJson(logInfo, UserLog[].class);
+
+        Log.d("LOGS LENGHT", ""+logJson.length);
+
+        //Cargar la lista
+        for (int i = 0; i < logJson.length; i++) {
+            logList.add(logJson[i]);
+        }
+
+        return logList;
+    }
+
     public UserLog lastLog(){
         BufferedReader br = null;
         UserLog log = null;
 
         if (!(fileExists("log.json"))){
-            log = new UserLog("",3);
+            log = new UserLog(3);
             return log;
         }
 
@@ -95,7 +117,15 @@ public class FileHelper extends  Application{
     }
 
     public boolean saveLog(UserLog log){
-        String jsonLog = "{\"day\":\""+log.getDay()+"\",\"exerciseType\":"+"\""+log.getExerciseType()+"\"}";
+        String jsonLog = "{" +
+
+                "\""+"day"+"\"" + ":" + "\""+log.getDay()+"\"" + "," +
+
+                "\""+"exerciseType" + "\"" + ":" + "\"" + log.getExerciseType() + "\"" + "," +
+
+                "\""+"complete" + "\"" + ":" + "\"" +log.getComplete() + "\"" +
+
+                "}";
 
         if (!(fileExists("log.json"))){
              writeStringAsFile("", "log.json");

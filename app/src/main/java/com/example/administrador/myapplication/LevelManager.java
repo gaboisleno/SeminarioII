@@ -40,6 +40,9 @@ public class LevelManager {
             case 4: case 5: case 6:
                 max = 4;
                 break;
+            case 7: case 8: case 9:
+                max=5;
+                break;
             default:
                 max = 6;
                 break;

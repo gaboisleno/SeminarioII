@@ -28,7 +28,7 @@ public class Usuario {
     }
 
     public void levelDown(){
-        this.nivel--;
+        if (this.nivel>1 )this.nivel--;
     }
 
     public int getExp() {
@@ -41,6 +41,10 @@ public class Usuario {
 
     public String getNombre() {
         return this.nombre;
+    }
+
+    private void manageExp(){
+
     }
 
 }

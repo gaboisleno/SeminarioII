@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.google.gson.Gson;
 
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Button metrics = findViewById(R.id.metrics);
+        final Button options = findViewById(R.id.options);
         String myExercisesJson = fh.loadExercises();
         Usuario appUser = fh.loadUser();
 
@@ -35,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
         myText.setText(
                 "Bienvenido " + appUser.getNombre()+" nivel "+appUser.getNivel() + " exp " + appUser.getExp()
         );
+
+        metrics.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent miIntent = new Intent(MainActivity.this, Metrics.class);
+                startActivity(miIntent);
+            }
+        });
+
+        options.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent miIntent = new Intent(MainActivity.this, Options.class);
+                startActivity(miIntent);
+            }
+        });
     }
 
     public void onClick (View view){
@@ -43,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         Intent miIntent = new Intent(MainActivity.this, JustDoIt.class);
         startActivity(miIntent);
     }
+
+
+
+
 
     @Override
     public void onBackPressed() {

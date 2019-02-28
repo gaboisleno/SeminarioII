@@ -53,7 +53,7 @@ public class JustDoIt extends AppCompatActivity {
         final List<Ejercicio> rutina = fh.filteredRutine(type);
 
         finish.setVisibility(View.INVISIBLE);
-        tired.setVisibility(View.INVISIBLE);
+        //tired.setVisibility(View.INVISIBLE);
 
         String texto = "";
         String repetitionInfo =
@@ -108,8 +108,11 @@ public class JustDoIt extends AppCompatActivity {
                 Log.d("OnClickTired","Cansado...");
                 Usuario appUser = fh.loadUser();
                 appUser.levelDown();//todo: quitar exp en lugar de lvl
-                end(appUser);
 
+                UserLog log = new UserLog(fh.getDate(), type, false);
+                fh.saveLog(log);
+
+                end(appUser);
             }
         });
 
@@ -119,9 +122,7 @@ public class JustDoIt extends AppCompatActivity {
                 Usuario appUser = fh.loadUser();
                 appUser.levelUp(); //todo: dar exp en lugar de lvl
 
-                UserLog log = new UserLog();
-                log.setDay(fh.getDate());
-                log.setExerciseType(type);
+                UserLog log = new UserLog(fh.getDate(), type, true);
                 fh.saveLog(log);
 
                 end(appUser);
@@ -159,6 +160,15 @@ public class JustDoIt extends AppCompatActivity {
                 break;
             case "Flexiones":
                 img.setImageResource(R.drawable.flexiones);
+                break;
+            case "Flexiones en banco":
+                img.setImageResource(R.drawable.flexiones_banco);
+                break;
+            case "Triceps en banco":
+                img.setImageResource(R.drawable.triceps_banco);
+                break;
+            case "Saltos burpees":
+                img.setImageResource(R.drawable.saltos_burpees);
                 break;
             case "Abdominales":
                 img.setImageResource(R.drawable.abdominales);
