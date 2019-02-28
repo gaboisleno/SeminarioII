@@ -25,16 +25,20 @@ public class FileHelper extends  Application{
     public String loadExercises() {
         String tContents = "[" +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Zancadas\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Jalones\",\"tipo\":1}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Extension de cadera\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Sentadillas\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Escalar montaña\",\"tipo\":1}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones en banco\",\"tipo\":2}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Flexiones espartanas\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Triceps en banco\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Saltos burpees\",\"tipo\":2}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales cruzados\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Elevacion de piernas\",\"tipo\":3},  " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Plancha\",\"tipo\":3}, " +
+                "{\"descripcion\":\"Test\",\"nombre\":\"Lumbares\",\"tipo\":3}, " +
                 "{\"descripcion\":\"Test\",\"nombre\":\"Abdominales bicileta\",\"tipo\":3} " +
                 "]";
         return tContents;
@@ -108,6 +112,11 @@ public class FileHelper extends  Application{
                 lastLine = sCurrentLine;
             }
             br.close();
+
+            if (lastLine.equals("")){
+                return new UserLog(3);
+            }
+
             log = gson.fromJson(lastLine, UserLog.class);
             return log;
         } catch (IOException e) {
@@ -129,7 +138,7 @@ public class FileHelper extends  Application{
 
         if (!(fileExists("log.json"))){
              writeStringAsFile("", "log.json");
-        } else {
+        } else if (!readFileAsString("log.json").equals("")) {
             jsonLog = ",\n"+jsonLog;
         }
 
@@ -176,6 +185,7 @@ public class FileHelper extends  Application{
             return false;
         }
     }
+
 
     //start TODO implementar encode-decode, la funcion está lista
     public String encode(String text){

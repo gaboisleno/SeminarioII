@@ -37,9 +37,7 @@ public class JustDoIt extends AppCompatActivity {
         final ImageView gifView = (ImageView)findViewById(R.id.gifView);
 
         //Filtro de rutina
-        Log.d("userlog",""+lastUserLog.getExerciseType());
         type = lastUserLog.getExerciseType();
-
 
         if (type==1) {
             type=2;
@@ -111,7 +109,6 @@ public class JustDoIt extends AppCompatActivity {
 
                 UserLog log = new UserLog(fh.getDate(), type, false);
                 fh.saveLog(log);
-
                 end(appUser);
             }
         });
@@ -120,11 +117,13 @@ public class JustDoIt extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("OnClickFinish","Completado!");
                 Usuario appUser = fh.loadUser();
-                appUser.levelUp(); //todo: dar exp en lugar de lvl
+
+                if (!(fh.getDate().equals(fh.lastLog().getDay()))){
+                    appUser.levelUp(); //todo: dar exp en lugar de lvl
+                }
 
                 UserLog log = new UserLog(fh.getDate(), type, true);
                 fh.saveLog(log);
-
                 end(appUser);
             }
         });
@@ -132,7 +131,8 @@ public class JustDoIt extends AppCompatActivity {
     }
 
     public void end(Usuario appUser){
-        if (fh.saveUser(appUser)) finish();
+        if (fh.saveUser(appUser))
+            finish();
     }
 
     public Ejercicio getExcersice(List<Ejercicio> rutina){
@@ -155,6 +155,12 @@ public class JustDoIt extends AppCompatActivity {
             case "Zancadas":
                 img.setImageResource(R.drawable.zancadas);
                 break;
+            case "Extension de cadera":
+                img.setImageResource(R.drawable.extension_cadera);
+                break;
+            case "Jalones":
+                img.setImageResource(R.drawable.jalones);
+                break;
             case "Sentadillas":
                 img.setImageResource(R.drawable.sentadillas);
                 break;
@@ -163,6 +169,9 @@ public class JustDoIt extends AppCompatActivity {
                 break;
             case "Flexiones en banco":
                 img.setImageResource(R.drawable.flexiones_banco);
+                break;
+            case "Flexiones espartanas":
+                img.setImageResource(R.drawable.flexiones_espartanas);
                 break;
             case "Triceps en banco":
                 img.setImageResource(R.drawable.triceps_banco);
@@ -178,6 +187,9 @@ public class JustDoIt extends AppCompatActivity {
                 break;
             case "Plancha":
                 img.setImageResource(R.drawable.plancha);
+                break;
+            case "Lumbares":
+                img.setImageResource(R.drawable.lumbares);
                 break;
             case "Abdominales bicileta":
                 img.setImageResource(R.drawable.abdominales_bicicleta);
