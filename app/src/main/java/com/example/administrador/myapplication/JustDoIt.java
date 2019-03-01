@@ -73,12 +73,13 @@ public class JustDoIt extends AppCompatActivity {
                     myText.setText("Completado!");
                     setTitle( "Rutina completa");
 
-                    gifView.setVisibility(View.INVISIBLE);
+                    //gifView.setVisibility(View.INVISIBLE);
+                    gifView.setImageResource(R.drawable.vector);
                     repetitionsText.setVisibility(View.INVISIBLE);
                     descriptionText.setVisibility(View.INVISIBLE);
                     next.setVisibility(View.INVISIBLE);
                     finish.setVisibility(View.VISIBLE);
-                    tired.setVisibility(View.VISIBLE);
+                    tired.setVisibility(View.INVISIBLE);
 
                 } else {
                     String texto = "";
@@ -99,7 +100,11 @@ public class JustDoIt extends AppCompatActivity {
 
                 UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), false);
                 fh.saveLog(log);
-                end(appUser);
+                fh.saveUser(appUser);
+
+                Intent intent = new Intent(JustDoIt.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -110,19 +115,13 @@ public class JustDoIt extends AppCompatActivity {
                 appUser.levelUp(); //todo: dar exp en lugar de lvl
                 UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), true);
                 fh.saveLog(log);
-                end(appUser);
+                fh.saveUser(appUser);
 
                 Intent intent = new Intent(JustDoIt.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
-
-    }
-
-    public void end(Usuario appUser){
-        if (fh.saveUser(appUser));
-
 
     }
 
