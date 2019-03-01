@@ -1,5 +1,6 @@
 package com.example.administrador.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -16,8 +19,10 @@ public class JustDoIt extends AppCompatActivity {
 
     public int maxExc;
     public int type;
+    int conter;
     FileHelper fh   = new FileHelper();
     Gson gson       = new Gson();
+    List<Ejercicio> rutina;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +41,14 @@ public class JustDoIt extends AppCompatActivity {
         final TextView descriptionText = (TextView)findViewById(R.id.txtDescription);
         final ImageView gifView = (ImageView)findViewById(R.id.gifView);
 
-        //Filtro de rutina
-        type = lastUserLog.getExerciseType();
 
-        if (type==1) {
-            type=2;
-        } else if (type==2) {
-            type=3;
-        } else if (type==3) {
-            type=1;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String list = getIntent().getStringExtra("myList");
+            rutina = Arrays.asList(gson.fromJson(list, Ejercicio[].class));
         }
 
-        Log.d("type exer",""+type);
-        final List<Ejercicio> rutina = fh.filteredRutine(type);
-
         finish.setVisibility(View.INVISIBLE);
-        //tired.setVisibility(View.INVISIBLE);
-
         String texto = "";
         String repetitionInfo =
                 LevelManager.getSeries(appUser.getNivel())+ " series de " +
@@ -60,31 +56,20 @@ public class JustDoIt extends AppCompatActivity {
         myText.setText(texto);
         repetitionsText.setText(repetitionInfo);
 
-        maxExc = LevelManager.getExercises(appUser.getNivel());
-        setTitle( (maxExc-1) + " ejercicios restantes");
 
         //Primer ejercicio
-        Ejercicio exc = getExcersice(rutina);
+        conter=0;
+        Ejercicio exc = rutina.get(conter);
         myText.setText(exc.getNombre());
         setImage(exc.getNombre(), gifView);
 
         //Evento click
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("OnClickNext","Siguiente ejercicio...");
-                setTitle( (maxExc-2) + " ejercicios restantes");
-
-                String texto = "";
-                myText.setText(texto);
-
-                Ejercicio exc = getExcersice(rutina);
-                maxExc--;
-
-                //Cambiar gif del ejercicio
-                setImage(exc.getNombre(), gifView);
+                conter++;
 
                 //Rutina completa?
-                if (exc.getNombre().equals("") || maxExc < 1 ){
+                if (conter == rutina.size() ){
                     myText.setText("Completado!");
                     setTitle( "Rutina completa");
 
@@ -95,7 +80,12 @@ public class JustDoIt extends AppCompatActivity {
                     finish.setVisibility(View.VISIBLE);
                     tired.setVisibility(View.VISIBLE);
 
-                }else{
+                } else {
+                    String texto = "";
+                    myText.setText(texto);
+                    Ejercicio exc = rutina.get(conter);
+                    //Cambiar gif del ejercicio
+                    setImage(exc.getNombre(), gifView);
                     myText.setText(exc.getNombre());
                 }
             }
@@ -107,7 +97,7 @@ public class JustDoIt extends AppCompatActivity {
                 Usuario appUser = fh.loadUser();
                 appUser.levelDown();//todo: quitar exp en lugar de lvl
 
-                UserLog log = new UserLog(fh.getDate(), type, false);
+                UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), false);
                 fh.saveLog(log);
                 end(appUser);
             }
@@ -117,36 +107,23 @@ public class JustDoIt extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("OnClickFinish","Completado!");
                 Usuario appUser = fh.loadUser();
-
-                if (!(fh.getDate().equals(fh.lastLog().getDay()))){
-                    appUser.levelUp(); //todo: dar exp en lugar de lvl
-                }
-
-                UserLog log = new UserLog(fh.getDate(), type, true);
+                appUser.levelUp(); //todo: dar exp en lugar de lvl
+                UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), true);
                 fh.saveLog(log);
                 end(appUser);
+
+                Intent intent = new Intent(JustDoIt.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
     }
 
     public void end(Usuario appUser){
-        if (fh.saveUser(appUser))
-            finish();
-    }
+        if (fh.saveUser(appUser));
 
-    public Ejercicio getExcersice(List<Ejercicio> rutina){
-        int size = rutina.size();
-        Ejercicio retorno;
 
-        if (size > 0){
-            int rand = new Random().nextInt(size);
-            retorno = rutina.get(rand);
-            rutina.remove(rand);
-            return retorno;
-        } else {
-            return new Ejercicio(0,"","");
-        }
     }
 
 

@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Button go_legs = findViewById(R.id.btn_legs);
+        final Button go_arms = findViewById(R.id.btn_arms);
+        final Button go_chest = findViewById(R.id.btn_chest);
+
         final Button metrics = findViewById(R.id.metrics);
         final Button options = findViewById(R.id.options);
         String myExercisesJson = fh.loadExercises();
@@ -45,10 +49,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(miIntent);
             }
         });
-
         options.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent miIntent = new Intent(MainActivity.this, Options.class);
+                startActivity(miIntent);
+            }
+        });
+        go_legs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent miIntent = new Intent(MainActivity.this, PreViewExercises.class);
+                miIntent.putExtra("type", 1);
+                startActivity(miIntent);
+            }
+        });
+        go_arms.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent miIntent = new Intent(MainActivity.this, PreViewExercises.class);
+                miIntent.putExtra("type", 2);
+                startActivity(miIntent);
+            }
+        });
+        go_chest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent miIntent = new Intent(MainActivity.this, PreViewExercises.class);
+                miIntent.putExtra("type", 3);
                 startActivity(miIntent);
             }
         });
@@ -56,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick (View view){
         Log.d("Onclick","GotoJustDoit");
-        // todo Comprobar si el dia de hoy hizo la rutina//
-        Intent miIntent = new Intent(MainActivity.this, JustDoIt.class);
+        Intent miIntent = new Intent(MainActivity.this, PreViewExercises.class);
         startActivity(miIntent);
     }
 

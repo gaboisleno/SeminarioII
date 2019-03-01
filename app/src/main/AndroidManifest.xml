@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Options"></activity>
+        <activity android:name=".PreViewExercises"></activity>
+        <activity android:name=".Options" />
         <activity android:name=".Metrics" />
         <activity android:name=".Login">
             <intent-filter>

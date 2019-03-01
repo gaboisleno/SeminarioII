@@ -9,9 +9,9 @@
 
     <TextView
         android:id="@+id/welcomeUser"
-        android:gravity="center"
         android:layout_width="271dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Bienvenido"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/btnStart"
@@ -23,7 +23,7 @@
     <Button
         android:id="@+id/btnStart"
         android:layout_width="302dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -31,7 +31,7 @@
         android:layout_marginBottom="72dp"
         android:background="#FF8F00"
         android:onClick="onClick"
-        android:text="Iniciar Rutina"
+        android:text="Rutina Automatica"
         android:textAllCaps="true"
         android:textColor="#373737"
         android:textSize="18sp"
@@ -40,6 +40,78 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_legs"
+        android:layout_width="302dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FF8F00"
+        android:onClick="onClick"
+        android:text="Rutina Piernas"
+        android:textAllCaps="true"
+        android:textColor="#373737"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.592" />
+
+    <Button
+        android:id="@+id/btn_arms"
+        android:layout_width="302dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FF8F00"
+        android:onClick="onClick"
+        android:text="Rutina Brazos"
+        android:textAllCaps="true"
+        android:textColor="#373737"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.674" />
+
+    <Button
+        android:id="@+id/btn_chest"
+        android:layout_width="302dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FF8F00"
+        android:onClick="onClick"
+        android:text="Rutina Torso"
+        android:textAllCaps="true"
+        android:textColor="#373737"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.757" />
 
     <Button
         android:id="@+id/options"
@@ -65,7 +137,26 @@
 
     <ImageView
         android:id="@+id/imageView"
+        android:layout_width="354dp"
+        android:layout_height="337dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeUser"
+        app:layout_constraintVertical_bias="0.05"
+        app:srcCompat="@drawable/vector" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/vector" />
+        app:barrierDirection="left" />
+
 </android.support.constraint.ConstraintLayout>

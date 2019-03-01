@@ -21,7 +21,7 @@ public class Metrics extends AppCompatActivity {
         adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         String text;
 
-        for (int i=0; i < logs.size(); i++){
+        for (int i= logs.size()-1; i >= 0; i--){
             text =  logs.get(i).getDay() + " - Rutina de "+logs.get(i).getTypeString() + " " + logs.get(i).completesino();
             adaptador.add(text);
         }

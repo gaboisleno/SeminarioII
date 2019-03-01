@@ -142,10 +142,11 @@ public class FileHelper extends  Application{
             jsonLog = ",\n"+jsonLog;
         }
 
-        if (lastLog()!=null && (log.getDay().equals(lastLog().getDay()))){
+        /*if (lastLog()!=null && (log.getDay().equals(lastLog().getDay()))){
             Log.d("Date","Same Date last log!!!");
             return false;
-        }
+        }*/
+
         BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getPath()+"/log.json", true));
