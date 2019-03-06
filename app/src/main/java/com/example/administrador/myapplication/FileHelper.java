@@ -151,6 +151,8 @@ public class FileHelper extends  Application{
 
                 "\""+"exerciseType" + "\"" + ":" + "\"" + log.getExerciseType() + "\"" + "," +
 
+                "\""+"levelActivity" + "\"" + ":" + "\"" + log.getLevelActivity() + "\"" + "," +
+
                 "\""+"complete" + "\"" + ":" + "\"" +log.getComplete() + "\"" +
 
                 "}";

@@ -68,7 +68,12 @@ public class PreViewExercises extends AppCompatActivity {
             text = exc.getNombre() +" "+LevelManager.getSeries(appUser.getNivel())+"x"+ LevelManager.repetitions(appUser.getNivel());
             adaptador.add(text);
         }
-        text = "- Tiempo estimado "+ LevelManager.getSeries(appUser.getNivel()) * 5 +" min -";
+
+        int time1 = LevelManager.getSeries(appUser.getNivel()) * 5;
+        int time2 = (int)(Math.log(LevelManager.repetitions(appUser.getNivel()))/Math.log(2));
+        int totalTime = time1+time2;
+
+        text = "- TIEMPO APROXIMADO "+ totalTime +" mins -";
         adaptador.add(text);
 
         lista.setAdapter(adaptador);

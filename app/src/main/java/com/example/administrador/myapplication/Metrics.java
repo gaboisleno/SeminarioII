@@ -24,6 +24,14 @@ public class Metrics extends AppCompatActivity {
         for (int i= logs.size()-1; i >= 0; i--){
             text =  logs.get(i).getDay() + " - Rutina de "+logs.get(i).getTypeString() + " " + logs.get(i).completesino();
             adaptador.add(text);
+
+            if (logs.get(i).getLevelActivity() == 1){
+                text = logs.get(i).getDay() + " Subiste de nivel ⬆";
+                adaptador.add(text);
+            } else if (logs.get(i).getLevelActivity() == -1){
+                text = logs.get(i).getDay() + " Bajaste de nivel ⬇";
+                adaptador.add(text);
+            }
         }
 
         lista.setAdapter(adaptador);

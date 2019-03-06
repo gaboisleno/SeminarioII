@@ -11,6 +11,20 @@ public class Usuario {
         this.experiencia = exp;
     }
 
+    public boolean winExp(){
+        boolean ret = false;
+
+        if ((this.experiencia) >= (this.nivel * 500)){
+            this.experiencia = 0;
+            this.nivel += 1;
+            ret = true;
+        } else {
+            this.experiencia += 500;
+        }
+
+        return ret;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -28,7 +42,9 @@ public class Usuario {
     }
 
     public void levelDown(){
-        if (this.nivel>1 )this.nivel--;
+        if (this.nivel>1 )
+            this.nivel--;
+            this.experiencia=0;
     }
 
     public int getExp() {

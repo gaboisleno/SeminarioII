@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class JustDoIt extends AppCompatActivity {
 
         //Setear variables
         Usuario appUser = fh.loadUser();
-        UserLog lastUserLog = fh.lastLog();
+        final UserLog lastUserLog = fh.lastLog();
 
         final Button tired = findViewById(R.id.tired);
         final Button finish = findViewById(R.id.finished);
@@ -62,6 +64,7 @@ public class JustDoIt extends AppCompatActivity {
         Ejercicio exc = rutina.get(conter);
         myText.setText(exc.getNombre());
         setImage(exc.getNombre(), gifView);
+        setTitle("Completa la rutina");
 
         //Evento click
         next.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +86,16 @@ public class JustDoIt extends AppCompatActivity {
 
                     Log.d("OnClickFinish","Completado!");
                     Usuario appUser = fh.loadUser();
-                    appUser.levelUp(); //todo: dar exp en lugar de lvl
-                    UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), true);
+                    UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), true, 0);
+
+                    if (appUser.winExp()){
+                        log.setLevelUp();
+                        Toast.makeText(JustDoIt.this, "Subes de Nivel!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        log.setLevelNull();
+                    }
+
                     fh.saveLog(log);
                     fh.saveUser(appUser);
 
@@ -105,7 +116,9 @@ public class JustDoIt extends AppCompatActivity {
                 Usuario appUser = fh.loadUser();
                 appUser.levelDown();//todo: quitar exp en lugar de lvl
 
-                UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), false);
+                UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), false, 0);
+                log.setLevelDown();
+
                 fh.saveLog(log);
                 fh.saveUser(appUser);
 
@@ -125,6 +138,11 @@ public class JustDoIt extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+    }
 
     public void setImage(String id, ImageView img){
         switch (id){
