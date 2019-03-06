@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Button metrics = findViewById(R.id.metrics);
         final Button options = findViewById(R.id.options);
-        String myExercisesJson = fh.loadExercises();
+        String myExercisesJson = fh.testLoad();
         Usuario appUser = fh.loadUser();
 
         TextView myText = (TextView)findViewById(R.id.welcomeUser);

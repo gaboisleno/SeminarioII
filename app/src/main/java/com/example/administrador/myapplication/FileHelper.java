@@ -1,5 +1,6 @@
 package com.example.administrador.myapplication;
 import android.app.Application;
+import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +23,23 @@ import java.util.List;
 public class FileHelper extends  Application{
 
     Gson gson = new Gson();
+
+
+    public String testLoad(){
+        String s = "";
+
+        try {
+            Resources res = getResources();
+            InputStream in_s = res.openRawResource(R.raw.exercises);
+            byte[] b = new byte[in_s.available()];
+            in_s.read(b);
+           s = s + new String(b);
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
+
+        return s;
+    }
 
     public String loadExercises() {
         String tContents = "[" +

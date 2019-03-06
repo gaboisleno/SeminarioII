@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class PreViewExercises extends AppCompatActivity {
 
@@ -64,9 +65,12 @@ public class PreViewExercises extends AppCompatActivity {
         for (int i=0; i < maxExc; i++){
             Ejercicio exc = getExcersice(ejercicios);
             listTodo.add(exc);
-            text = exc.getNombre();
+            text = exc.getNombre() +" "+LevelManager.getSeries(appUser.getNivel())+"x"+ LevelManager.repetitions(appUser.getNivel());
             adaptador.add(text);
         }
+        text = "- Tiempo estimado "+ LevelManager.getSeries(appUser.getNivel()) * 5 +" min -";
+        adaptador.add(text);
+
         lista.setAdapter(adaptador);
 
         ready.setOnClickListener(new View.OnClickListener() {

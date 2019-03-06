@@ -81,6 +81,13 @@ public class JustDoIt extends AppCompatActivity {
                     finish.setVisibility(View.VISIBLE);
                     tired.setVisibility(View.INVISIBLE);
 
+                    Log.d("OnClickFinish","Completado!");
+                    Usuario appUser = fh.loadUser();
+                    appUser.levelUp(); //todo: dar exp en lugar de lvl
+                    UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), true);
+                    fh.saveLog(log);
+                    fh.saveUser(appUser);
+
                 } else {
                     String texto = "";
                     myText.setText(texto);
@@ -110,13 +117,6 @@ public class JustDoIt extends AppCompatActivity {
 
         finish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("OnClickFinish","Completado!");
-                Usuario appUser = fh.loadUser();
-                appUser.levelUp(); //todo: dar exp en lugar de lvl
-                UserLog log = new UserLog(fh.getDate(), rutina.get(0).getTipo(), true);
-                fh.saveLog(log);
-                fh.saveUser(appUser);
-
                 Intent intent = new Intent(JustDoIt.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
